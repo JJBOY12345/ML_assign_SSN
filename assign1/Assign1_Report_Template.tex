@@ -1,0 +1,457 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{longtable}
+
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{ICS1512}
+\rhead{Machine Learning Algorithms Laboratory}
+\cfoot{\thepage}
+
+\lstset{
+language=Python,
+basicstyle=\ttfamily\small,
+numbers=left,
+frame=single,
+breaklines=true,
+showstringspaces=false
+}
+
+\begin{document}
+
+\begin{tabular}{|p{4cm}|p{11cm}|}
+\hline
+Experiment No. & 1 \\ \hline
+Experiment Title &
+Exploratory Data Analysis on Multiple Datasets
+\footnote{\textbf{GitHub Repository: }\url{https://github.com/username/repository}}\\ \hline
+Student Name & \\ \hline
+Register Number & \\ \hline
+Faculty & Dr. Poreddy Ajay Kumar Reddy \\ \hline
+Submission Date & \\ \hline
+\end{tabular}
+
+\section{Objective}
+TODO: State the overall objective of this experiment — to perform exploratory data analysis (EDA) on multiple datasets covering classification and regression tasks, using Python libraries such as pandas, NumPy, Matplotlib, and Seaborn.
+
+\section{Tools and Libraries Used}
+\begin{itemize}
+    \item \textbf{Python Version}: TODO: Specify Python version
+    \item \textbf{pandas}: For data loading, manipulation, and analysis
+    \item \textbf{NumPy}: For numerical computations
+    \item \textbf{Matplotlib}: For static visualizations
+    \item \textbf{Seaborn}: For statistical visualizations
+    \item \textbf{scikit-learn}: For loading built-in datasets (Digits)
+    \item \textbf{IDE}: TODO: Specify IDE (e.g., Jupyter Notebook, VS Code)
+\end{itemize}
+
+\section{Generic Functions Implemented}
+The following reusable functions were implemented to perform EDA across all datasets:
+
+\begin{itemize}
+    \item \texttt{load\_dataset()}: Loads a CSV file with optional column names and separator.
+    \item \texttt{dataset\_info()}: Displays shape, column names, data types, memory usage, and first 5 rows.
+    \item \texttt{missing\_values()}: Reports count and percentage of missing values per column.
+    \item \texttt{duplicate\_info()}: Reports the number of duplicate rows.
+    \item \texttt{summary\_statistics()}: Prints descriptive statistics for numerical columns.
+    \item \texttt{class\_distribution()}: Plots a bar chart for a categorical/target column.
+    \item \texttt{plot\_histogram()}: Plots histograms for all numerical features.
+    \item \texttt{plot\_boxplot()}: Plots box plots for all numerical features to detect outliers.
+    \item \texttt{plot\_heatmap()}: Plots a correlation heatmap for numerical features.
+    \item \texttt{plot\_scatterplot()}: Plots a pair plot (scatter matrix) with optional hue.
+    \item \texttt{perform\_eda()}: Orchestrates the full EDA pipeline with configurable options.
+\end{itemize}
+
+TODO: Include the code listing for these functions.
+
+\begin{lstlisting}[caption=Core EDA Functions, label=lst:eda_functions]
+# TODO: Paste the complete Python code for all EDA functions here
+\end{lstlisting}
+
+\section{Dataset 1: Iris Dataset (Classification)}
+
+\subsection{Dataset Description}
+\begin{longtable}{|p{5cm}|p{9cm}|}
+\hline
+Dataset Name & Iris \\ \hline
+Dataset Source & \texttt{iris/iris.data} (UCI Repository) \\ \hline
+Number of Samples & 150 \\ \hline
+Number of Features & 4 (sepal\_length, sepal\_width, petal\_length, petal\_width) \\ \hline
+Target Classes & 3 (Iris-setosa, Iris-versicolor, Iris-virginica) \\ \hline
+Missing Values & None \\ \hline
+Duplicate Records & 3 \\ \hline
+\end{longtable}
+
+TODO: Describe the dataset, its features, and the classification task.
+
+\subsection{Loading and Basic Information}
+TODO: Explain how the dataset was loaded and what the basic information revealed about its structure.
+
+\subsection{Missing Values and Duplicates}
+TODO: Discuss the findings — no missing values, 3 duplicate records detected.
+
+\subsection{Exploratory Data Analysis}
+
+\subsubsection{Summary Statistics}
+TODO: Present and interpret the descriptive statistics of the four numerical features.
+
+\begin{longtable}{|l|r|r|r|r|}
+\hline
+\textbf{Feature} & \textbf{Mean} & \textbf{Std} & \textbf{Min} & \textbf{Max} \\ \hline
+sepal\_length & TODO & TODO & TODO & TODO \\ \hline
+sepal\_width & TODO & TODO & TODO & TODO \\ \hline
+petal\_length & TODO & TODO & TODO & TODO \\ \hline
+petal\_width & TODO & TODO & TODO & TODO \\ \hline
+\end{longtable}
+
+\subsubsection{Class Distribution}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{example-image}
+\caption{Class Distribution of Iris Species}
+\end{figure}
+
+\textbf{Inference:}
+TODO: Explain that each class has 50 samples, making the dataset balanced.
+
+\subsubsection{Histograms}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{example-image}
+\caption{Histograms of Numerical Features — Iris Dataset}
+\end{figure}
+
+\textbf{Inference:}
+TODO: Describe the distribution shapes — petal length and petal width are bimodal, while sepal features are unimodal.
+
+\subsubsection{Box Plots}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{example-image}
+\caption{Box Plots of Numerical Features — Iris Dataset}
+\end{figure}
+
+\textbf{Inference:}
+TODO: Discuss outliers observed (if any) and the spread of each feature.
+
+\subsubsection{Correlation Heatmap}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{example-image}
+\caption{Correlation Heatmap — Iris Dataset}
+\end{figure}
+
+\textbf{Inference:}
+TODO: Interpret the strong positive correlation between petal length and petal width (~0.96), and the weaker correlation with sepal width.
+
+\subsubsection{Pair Plot}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{example-image}
+\caption{Pair Plot of All Features — Iris Dataset}
+\end{figure}
+
+\textbf{Inference:}
+TODO: Describe how the pair plot reveals natural clustering among the species, especially in petal-related features.
+
+\section{Dataset 2: Loan Approval Dataset (Classification)}
+
+\subsection{Dataset Description}
+\begin{longtable}{|p{5cm}|p{9cm}|}
+\hline
+Dataset Name & Loan Approval \\ \hline
+Dataset Source & \texttt{LoanAmount/loan\_approval\_dataset.csv} \\ \hline
+Number of Samples & 4,269 \\ \hline
+Number of Features & 13 (10 numerical, 3 categorical) \\ \hline
+Target Variable & \texttt{loan\_status} (Approved / Rejected) \\ \hline
+Missing Values & None \\ \hline
+Duplicate Records & None \\ \hline
+\end{longtable}
+
+TODO: Describe the dataset, the features, and the prediction task (loan approval classification).
+
+\subsection{Loading and Basic Information}
+TODO: Discuss the structure of the dataset, data types, and initial observations.
+
+\subsection{Missing Values and Duplicates}
+TODO: Report that no missing values or duplicates were found.
+
+\subsection{Summary Statistics}
+TODO: Present and interpret key statistics — income range, loan amount range, CIBIL scores, and the unusual negative value in residential assets.
+
+\begin{longtable}{|l|r|r|r|r|}
+\hline
+\textbf{Feature} & \textbf{Mean} & \textbf{Std} & \textbf{Min} & \textbf{Max} \\ \hline
+income\_annum & TODO & TODO & TODO & TODO \\ \hline
+loan\_amount & TODO & TODO & TODO & TODO \\ \hline
+cibil\_score & TODO & TODO & TODO & TODO \\ \hline
+loan\_term & TODO & TODO & TODO & TODO \\ \hline
+residential\_assets\_value & TODO & TODO & TODO & TODO \\ \hline
+\end{longtable}
+
+\subsection{Exploratory Data Analysis}
+
+\subsubsection{Class Distribution — Loan Status}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{example-image}
+\caption{Distribution of Loan Status}
+\end{figure}
+
+\textbf{Inference:}
+TODO: Discuss whether the dataset is balanced or imbalanced with respect to loan status.
+
+\subsubsection{Class Distribution — Education and Self Employed}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{example-image}
+\caption{Distribution of Education Level}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{example-image}
+\caption{Distribution of Self Employment Status}
+\end{figure}
+
+\textbf{Inference:}
+TODO: Discuss the balance in both categorical features.
+
+\subsubsection{Histograms}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{example-image}
+\caption{Histograms of Numerical Features — Loan Dataset}
+\end{figure}
+
+\textbf{Inference:}
+TODO: Describe the skewness observed in loan amount and asset value columns, and the uniform distribution of income, loan term, and CIBIL score.
+
+\subsubsection{Box Plots}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{example-image}
+\caption{Box Plots of Numerical Features — Loan Dataset}
+\end{figure}
+
+\textbf{Inference:}
+TODO: Discuss outliers in asset value columns and their absence in CIBIL score and loan amount.
+
+\subsubsection{Correlation Heatmap}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{example-image}
+\caption{Correlation Heatmap — Loan Dataset}
+\end{figure}
+
+\textbf{Inference:}
+TODO: Interpret the strong positive correlation between income\_annum and loan\_amount (0.93), and the very low correlation of CIBIL score with other features.
+
+\subsubsection{Pair Plot (Selected Features)}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{example-image}
+\caption{Pair Plot of Key Features colored by Loan Status}
+\end{figure}
+
+\textbf{Inference:}
+TODO: Explain how CIBIL score shows the clearest separation between approved and rejected applications, while other features show heavy overlap.
+
+\section{Dataset 3: Diabetes Prediction Dataset (Classification)}
+
+\subsection{Dataset Description}
+\begin{longtable}{|p{5cm}|p{9cm}|}
+\hline
+Dataset Name & Diabetes Prediction \\ \hline
+Dataset Source & \texttt{Diabetes\_Prediction/diabetes\_prediction\_dataset.csv} \\ \hline
+Number of Samples & 100,000 \\ \hline
+Number of Features & 9 (including target) \\ \hline
+Target Variable & \texttt{diabetes} (0 = Non-Diabetic, 1 = Diabetic) \\ \hline
+Missing Values & None \\ \hline
+Duplicate Records & 3,854 \\ \hline
+\end{longtable}
+
+TODO: Describe the dataset and the binary classification task.
+
+\subsection{Loading and Basic Information}
+TODO: Discuss dataset size, features, data types, and initial observations.
+
+\subsection{Missing Values and Duplicates}
+TODO: Report that no missing values exist but 3,854 duplicate records were detected — discuss potential impact on model training.
+
+\subsection{Summary Statistics}
+TODO: Present key statistics — age range, BMI, HbA1c levels, blood glucose levels.
+
+\begin{longtable}{|l|r|r|r|r|}
+\hline
+\textbf{Feature} & \textbf{Mean} & \textbf{Std} & \textbf{Min} & \textbf{Max} \\ \hline
+age & TODO & TODO & TODO & TODO \\ \hline
+bmi & TODO & TODO & TODO & TODO \\ \hline
+HbA1c\_level & TODO & TODO & TODO & TODO \\ \hline
+blood\_glucose\_level & TODO & TODO & TODO & TODO \\ \hline
+\end{longtable}
+
+\subsection{Exploratory Data Analysis}
+
+\subsubsection{Histograms}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{example-image}
+\caption{Histograms of Numerical Features — Diabetes Dataset}
+\end{figure}
+
+\textbf{Inference:}
+TODO: Discuss the distribution of age, BMI, HbA1c, blood glucose, and the imbalance in the target variable.
+
+\subsubsection{Box Plots}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{example-image}
+\caption{Box Plots of Numerical Features — Diabetes Dataset}
+\end{figure}
+
+\textbf{Inference:}
+TODO: Discuss outliers observed in BMI, HbA1c level, and blood glucose level.
+
+\subsubsection{Correlation Heatmap}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{example-image}
+\caption{Correlation Heatmap — Diabetes Dataset}
+\end{figure}
+
+\textbf{Inference:}
+TODO: Interpret correlations — blood glucose level (0.42) and HbA1c level (0.40) have the highest correlation with diabetes.
+
+\section{Dataset 4: Handwritten Digits Dataset (Classification)}
+
+\subsection{Dataset Description}
+\begin{longtable}{|p{5cm}|p{9cm}|}
+\hline
+Dataset Name & Digits \\ \hline
+Dataset Source & scikit-learn \texttt{load\_digits()} (built-in) \\ \hline
+Number of Samples & TODO: Specify number of samples \\ \hline
+Number of Features & 64 (8×8 pixel values) \\ \hline
+Number of Classes & 10 (digits 0–9) \\ \hline
+Missing Values & None \\ \hline
+Duplicate Records & TODO: Specify count \\ \hline
+\end{longtable}
+
+TODO: Describe the dataset and the multi-class classification task.
+
+\subsection{Loading and Basic Information}
+TODO: Explain how the dataset was loaded using \texttt{load\_digits()} and converted to a DataFrame with a target column.
+
+\subsection{Exploratory Data Analysis}
+
+\subsubsection{Class Distribution}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{example-image}
+\caption{Class Distribution of Digits 0–9}
+\end{figure}
+
+\textbf{Inference:}
+TODO: Discuss whether the digit classes are balanced.
+
+\subsubsection{Sample Visualization}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{example-image}
+\caption{Sample Digit Images from the Dataset}
+\end{figure}
+
+\textbf{Inference:}
+TODO: Show sample images of each digit and describe the visual representation.
+
+\section{Dataset 5: Email Spam Classification Dataset}
+
+\subsection{Dataset Description}
+\begin{longtable}{|p{5cm}|p{9cm}|}
+\hline
+Dataset Name & Email Spam \\ \hline
+Dataset Source & \texttt{emailSpam/emails.csv} \\ \hline
+Number of Samples & TODO: Specify number of samples \\ \hline
+Number of Features & TODO: Specify number of features \\ \hline
+Target Variable & \texttt{Prediction} (Spam / Not Spam) \\ \hline
+Missing Values & TODO: Specify \\ \hline
+Duplicate Records & TODO: Specify \\ \hline
+\end{longtable}
+
+TODO: Describe the dataset and the binary classification task.
+
+\subsection{Loading and Basic Information}
+TODO: Explain how the dataset was loaded and the initial observations.
+
+\subsection{Exploratory Data Analysis}
+
+\subsubsection{Class Distribution}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{example-image}
+\caption{Distribution of Spam vs Non-Spam Emails}
+\end{figure}
+
+\textbf{Inference:}
+TODO: Discuss the balance (or imbalance) between spam and non-spam classes.
+
+\section{Comparison Summary Across Datasets}
+
+\begin{longtable}{|p{3.5cm}|c|c|c|c|c|}
+\hline
+\textbf{Property} & \textbf{Iris} & \textbf{Loan} & \textbf{Diabetes} & \textbf{Digits} & \textbf{Spam} \\ \hline
+Samples & 150 & 4,269 & 100,000 & TODO & TODO \\ \hline
+Features & 4 & 13 & 9 & 64 & TODO \\ \hline
+Classes & 3 & 2 & 2 & 10 & 2 \\ \hline
+Missing Values & 0 & 0 & 0 & 0 & TODO \\ \hline
+Duplicates & 3 & 0 & 3,854 & TODO & TODO \\ \hline
+Task Type & Multi-class Classification & Binary Classification & Binary Classification & Multi-class Classification & Binary Classification \\ \hline
+\end{longtable}
+
+TODO: Write a brief comparative analysis of the datasets in terms of size, complexity, and EDA findings.
+
+\section{Key Observations and Discussion}
+TODO: Write a consolidated discussion covering:
+
+\begin{itemize}
+    \item The importance of EDA in understanding datasets before model building.
+    \item How visualizations (histograms, box plots, heatmaps, pair plots) reveal patterns, outliers, and feature relationships.
+    \item The utility of reusable EDA functions for scaling analysis across multiple datasets.
+    \item Notable findings such as the bimodal nature of Iris petal features, the strong correlation between income and loan amount, and the predictive power of CIBIL scores and HbA1c levels.
+    \item The presence of duplicates in the Diabetes dataset and the need for preprocessing.
+\end{itemize}
+
+\section{Conclusion}
+TODO: Summarize the experiment — the ability to load, explore, and visualize multiple datasets using a systematic EDA pipeline was demonstrated, providing critical insights that guide subsequent preprocessing and modeling decisions.
+
+\section{Learning Outcomes}
+TODO: Write 3–5 learning outcomes, such as:
+
+\begin{itemize}
+    \item Implemented reusable data loading and EDA functions in Python.
+    \item Gained proficiency in using pandas, Matplotlib, and Seaborn for data analysis.
+    \item Learned to interpret statistical summaries and visualizations to extract meaningful insights.
+    \item Understood the importance of detecting missing values, duplicates, and outliers.
+    \item Recognized how feature correlations and distributions inform feature selection and model choice.
+\end{itemize}
+
+\section{References}
+\begin{enumerate}
+    \item TODO: Reference the Iris dataset (UCI Repository).
+    \item TODO: Reference scikit-learn documentation for load\_digits.
+    \item TODO: Reference pandas documentation.
+    \item TODO: Reference Matplotlib and Seaborn documentation.
+\end{enumerate}
+
+\end{document}
