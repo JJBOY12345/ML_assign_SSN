@@ -1,0 +1,319 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{longtable}
+
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{ICS1512}
+\rhead{Machine Learning Algorithms Laboratory}
+\cfoot{\thepage}
+
+\begin{document}
+
+\begin{tabular}{|p{4cm}|p{11cm}|}
+\hline
+Experiment No. & 4 \\ \hline
+Experiment Title &
+Binary Classification using Linear and Kernel-Based Models
+\footnote{\textbf{GitHub Repository: }\url{https://github.com/JJBOY12345/MLAssign_SSN}}\\ \hline
+Student Name & \\ \hline
+Register Number & \\ \hline
+Faculty & Dr. Poreddy Ajay Kumar Reddy \\ \hline
+Submission Date & \\ \hline
+\end{tabular}
+
+\section{Objective}
+TODO: State the objective of this experiment — to classify emails as spam or ham using Logistic Regression and Support Vector Machine (SVM) classifiers, and to analyze the effect of hyperparameter tuning on classification performance.
+
+\section{Problem Statement}
+TODO: Describe the problem — given the Spambase dataset with numerical features extracted from email content, the task is to predict whether an email is spam (1) or ham (0) using two binary classifiers (Logistic Regression and SVM), with hyperparameter tuning to optimize performance.
+
+\section{Dataset Description}
+\begin{longtable}{|p{5cm}|p{9cm}|}
+\hline
+Dataset Name & Spambase \\ \hline
+Dataset Source & \texttt{data/spambase\_csv.csv} (UCI Repository / Kaggle) \\ \hline
+Number of Samples & 4,601 \\ \hline
+Number of Features & 57 (word frequencies, character frequencies, capital run lengths) \\ \hline
+Number of Classes & 2 (Spam / Ham) \\ \hline
+Missing Values & None \\ \hline
+Duplicate Records & TODO: Specify \\ \hline
+Train-Test Split & 80\% Train, 20\% Test (stratified) \\ \hline
+\end{longtable}
+
+TODO: Describe the dataset, its features, and the binary classification task.
+
+\section{Exploratory Data Analysis}
+Only the class distribution was plotted (other visualizations were not generated in the notebook).
+
+\subsection{Class Distribution}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{images/spam_class_distribution.png}
+\caption{Class Distribution of Spam vs Ham Emails}
+\end{figure}
+
+\textbf{Inference:}
+TODO: Discuss the balance (or imbalance) between spam and non-spam classes, and how it affects model training.
+
+\section{Data Preprocessing}
+Explain the preprocessing steps performed:
+\begin{itemize}
+    \item \textbf{Feature-Target Separation}: Features (X) and target (y) were separated.
+    \item \textbf{Train-Test Split}: Data was split into 80\% training and 20\% testing using stratified sampling (random\_state=42).
+    \item \textbf{Missing Value Handling}: \texttt{SimpleImputer(strategy='median')} was used to handle missing values.
+    \item \textbf{Feature Scaling}: \texttt{StandardScaler} was applied to standardize features.
+\end{itemize}
+
+\section{Machine Learning Algorithms}
+Explain the working principle, mathematical formulation, advantages, and limitations of each algorithm:
+
+\subsection{Logistic Regression}
+TODO: Explain Logistic Regression — probabilistic classifier using the sigmoid function:
+\[
+P(y=1|x) = \frac{1}{1 + e^{-(w^T x + b)}}
+\]
+TODO: Explain the log-loss (cross-entropy) function, and L1/L2 regularization.
+
+\subsection{Support Vector Machine (SVM)}
+TODO: Explain SVM — margin-based classifier that finds an optimal hyperplane maximizing the margin between classes. Discuss support vectors.
+
+\subsubsection{SVM Kernels}
+TODO: Explain each kernel:
+\begin{itemize}
+    \item \textbf{Linear Kernel}: Suitable for linearly separable data.
+    \item \textbf{Polynomial Kernel}: Captures polynomial relationships.
+    \item \textbf{RBF Kernel}: Handles complex, non-linear boundaries.
+    \item \textbf{Sigmoid Kernel}: Similar to neural network activation.
+\end{itemize}
+
+\section{Experimental Setup}
+\begin{tabular}{ll}
+\toprule
+Python Version & TODO: Specify \\
+Scikit-Learn Version & TODO: Specify \\
+IDE & TODO: Specify \\
+Operating System & TODO: Specify \\
+Hardware & TODO: Specify \\
+\bottomrule
+\end{tabular}
+
+\section{Model 1: Logistic Regression (Baseline)}
+TODO: Explain the baseline training process using default parameters.
+
+\subsection{Results}
+\begin{table}[H]
+\centering
+\begin{tabular}{lc}
+\toprule
+\textbf{Metric} & \textbf{Value} \\ \midrule
+Accuracy & TODO \\
+Precision & TODO \\
+Recall & TODO \\
+F1-Score & TODO \\
+ROC-AUC & TODO \\
+Training Time (s) & TODO \\
+Prediction Time (s) & TODO \\
+\bottomrule
+\end{tabular}
+\caption{Baseline Logistic Regression Performance Metrics}
+\end{table}
+
+\section{Hyperparameter Tuning — Logistic Regression (RandomizedSearchCV)}
+TODO: Explain RandomizedSearchCV and the parameter search space.
+
+\subsection{Parameter Search Space}
+\begin{longtable}{|l|l|}
+\hline
+\textbf{Parameter} & \textbf{Values Searched} \\ \hline
+penalty & l1, l2 \\ \hline
+C & 0.01, 0.1, 1, 10, 100 \\ \hline
+solver & liblinear, saga \\ \hline
+\end{longtable}
+
+\subsection{Tuning Results}
+TODO: Report the best parameters, best cross-validation accuracy, and random search time.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{Parameter} & \textbf{Best Value} \\ \midrule
+penalty & TODO \\
+C & TODO \\
+solver & TODO \\
+Best CV Accuracy & TODO \\
+Search Time (s) & TODO \\
+\bottomrule
+\end{tabular}
+\caption{Logistic Regression RandomizedSearchCV Results}
+\end{table}
+
+\subsection{Tuned Logistic Regression Performance}
+TODO: Report the test performance of the tuned Logistic Regression model.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lc}
+\toprule
+\textbf{Metric} & \textbf{Value} \\ \midrule
+Accuracy & TODO \\
+Precision & TODO \\
+Recall & TODO \\
+F1-Score & TODO \\
+ROC-AUC & TODO \\
+Prediction Time (s) & TODO \\
+\bottomrule
+\end{tabular}
+\caption{Tuned Logistic Regression Performance Metrics}
+\end{table}
+
+\section{SVM — Kernel-wise Performance}
+TODO: Explain that SVM was trained with 4 different kernels (linear, polynomial, RBF, sigmoid).
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lccc}
+\toprule
+\textbf{Kernel} & \textbf{Accuracy} & \textbf{F1-Score} & \textbf{Training Time (s)} \\ \midrule
+Linear & TODO & TODO & TODO \\
+Polynomial & TODO & TODO & TODO \\
+RBF & TODO & TODO & TODO \\
+Sigmoid & TODO & TODO & TODO \\
+\bottomrule
+\end{tabular}
+\caption{SVM Kernel-wise Performance}
+\end{table}
+
+TODO: Discuss which kernel performed best and why.
+
+\section{Hyperparameter Tuning — SVM (GridSearchCV)}
+TODO: Explain GridSearchCV and the parameter search space.
+
+\subsection{Parameter Search Space}
+\begin{longtable}{|l|l|}
+\hline
+\textbf{Parameter} & \textbf{Values Searched} \\ \hline
+C & 0.1, 1, 10, 100 \\ \hline
+gamma & scale, auto \\ \hline
+kernel & rbf, linear, poly \\ \hline
+degree & 2, 3, 4 \\ \hline
+\end{longtable}
+
+\subsection{Tuning Results}
+TODO: Report the best parameters, best cross-validation accuracy, and grid search time.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{Parameter} & \textbf{Best Value} \\ \midrule
+C & TODO \\
+gamma & TODO \\
+kernel & TODO \\
+degree & TODO \\
+Best CV Accuracy & TODO \\
+Search Time (s) & TODO \\
+\bottomrule
+\end{tabular}
+\caption{SVM GridSearchCV Results}
+\end{table}
+
+\subsection{Tuned SVM Performance}
+TODO: Report the test performance of the tuned SVM model.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lc}
+\toprule
+\textbf{Metric} & \textbf{Value} \\ \midrule
+Accuracy & TODO \\
+Precision & TODO \\
+Recall & TODO \\
+F1-Score & TODO \\
+ROC-AUC & TODO \\
+Prediction Time (s) & TODO \\
+\bottomrule
+\end{tabular}
+\caption{Tuned SVM Performance Metrics}
+\end{table}
+
+\section{5-Fold Cross-Validation Comparison}
+TODO: Explain that 5-fold cross-validation was performed for both tuned models.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lcc}
+\toprule
+\textbf{Fold} & \textbf{Logistic Regression} & \textbf{SVM} \\ \midrule
+Fold 1 & TODO & TODO \\
+Fold 2 & TODO & TODO \\
+Fold 3 & TODO & TODO \\
+Fold 4 & TODO & TODO \\
+Fold 5 & TODO & TODO \\
+\textbf{Average} & TODO & TODO \\
+\bottomrule
+\end{tabular}
+\caption{5-Fold Cross-Validation Results (Logistic Regression vs SVM)}
+\end{table}
+
+\textbf{Inference:}
+TODO: Compare the cross-validation scores — which model generalizes better?
+
+\section{Comparative Analysis}
+\begin{table}[H]
+\centering
+\begin{tabular}{lcc}
+\toprule
+\textbf{Criterion} & \textbf{Logistic Regression} & \textbf{SVM} \\ \midrule
+Accuracy & TODO & TODO \\
+Model Complexity & Low & High \\
+Training Time & Low & High \\
+Interpretability & High & Low \\
+\bottomrule
+\end{tabular}
+\caption{Comparative Analysis: Logistic Regression vs SVM}
+\end{table}
+
+\section{Discussion}
+TODO: Discuss observations:
+\begin{itemize}
+    \item Identify the best-performing classifier and explain why.
+    \item Explain the impact of regularization (L1/L2) on Logistic Regression.
+    \item Discuss kernel behavior in SVM — how each kernel handles the decision boundary.
+    \item Comment on the bias-variance trade-off for both models.
+    \item Compare the effect of hyperparameter tuning (RandomizedSearchCV vs GridSearchCV).
+\end{itemize}
+
+\section{Conclusion}
+TODO: Summarize the experiment — Logistic Regression and SVM were applied for binary spam classification. Hyperparameter tuning was performed using RandomizedSearchCV and GridSearchCV. Models were evaluated using accuracy, precision, recall, F1-score, and 5-fold cross-validation.
+
+\section{Learning Outcomes}
+TODO: Write 3–5 learning outcomes, such as:
+\begin{itemize}
+    \item Understood probabilistic (Logistic Regression) and margin-based (SVM) classifiers.
+    \item Applied hyperparameter tuning using RandomizedSearchCV and GridSearchCV.
+    \item Learned to evaluate classification models using multiple metrics.
+    \item Interpreted experimental results and compared model performance.
+\end{itemize}
+
+\section{References}
+\begin{enumerate}
+    \item TODO: Reference scikit-learn documentation for Logistic Regression.
+    \item TODO: Reference scikit-learn documentation for Support Vector Machines.
+    \item TODO: Reference scikit-learn documentation for Hyperparameter Optimization.
+    \item TODO: Reference the Spambase dataset (UCI ML Repository / Kaggle).
+\end{enumerate}
+
+\end{document}

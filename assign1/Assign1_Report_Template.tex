@@ -20,13 +20,27 @@
 \rhead{Machine Learning Algorithms Laboratory}
 \cfoot{\thepage}
 
+% ===== Python syntax highlighting colors =====
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblue}{rgb}{0,0,0.8}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
 \lstset{
 language=Python,
 basicstyle=\ttfamily\small,
+backgroundcolor=\color{backcolour},
+commentstyle=\color{codegreen},
+keywordstyle=\color{codeblue},
+stringstyle=\color{codepurple},
+numberstyle=\tiny\color{codegray},
 numbers=left,
 frame=single,
 breaklines=true,
-showstringspaces=false
+showstringspaces=false,
+tabsize=4,
+captionpos=b
 }
 
 \begin{document}
@@ -36,25 +50,24 @@ showstringspaces=false
 Experiment No. & 1 \\ \hline
 Experiment Title &
 Exploratory Data Analysis on Multiple Datasets
-\footnote{\textbf{GitHub Repository: }\url{https://github.com/username/repository}}\\ \hline
-Student Name & \\ \hline
-Register Number & \\ \hline
+\footnote{\textbf{GitHub Repository: }\url{https://github.com/JJBOY12345/MLAssign_SSN/tree/main}}\\ \hline
+Student Name  & J JESWIN JOEL \\ \hline
+Register Number & 3122247001018  \\ \hline
 Faculty & Dr. Poreddy Ajay Kumar Reddy \\ \hline
 Submission Date & \\ \hline
 \end{tabular}
 
 \section{Objective}
-TODO: State the overall objective of this experiment — to perform exploratory data analysis (EDA) on multiple datasets covering classification and regression tasks, using Python libraries such as pandas, NumPy, Matplotlib, and Seaborn.
-
+Learn TO create modular function which can load and perform eda operation like histogram,pairplot,heatmap on the dataset.
 \section{Tools and Libraries Used}
 \begin{itemize}
-    \item \textbf{Python Version}: TODO: Specify Python version
+    \item \textbf{Python Version}: Python 3.12.3
     \item \textbf{pandas}: For data loading, manipulation, and analysis
     \item \textbf{NumPy}: For numerical computations
     \item \textbf{Matplotlib}: For static visualizations
     \item \textbf{Seaborn}: For statistical visualizations
     \item \textbf{scikit-learn}: For loading built-in datasets (Digits)
-    \item \textbf{IDE}: TODO: Specify IDE (e.g., Jupyter Notebook, VS Code)
+    \item \textbf{IDE}: Vs code
 \end{itemize}
 
 \section{Generic Functions Implemented}
@@ -74,10 +87,170 @@ The following reusable functions were implemented to perform EDA across all data
     \item \texttt{perform\_eda()}: Orchestrates the full EDA pipeline with configurable options.
 \end{itemize}
 
-TODO: Include the code listing for these functions.
+\subsection{Dataset Loading}
 
-\begin{lstlisting}[caption=Core EDA Functions, label=lst:eda_functions]
-# TODO: Paste the complete Python code for all EDA functions here
+The \texttt{load\_dataset()} function is responsible for reading the dataset
+from a CSV file while supporting optional column names and custom separators.
+
+\begin{lstlisting}[language=Python,caption={Dataset Loading Function}]
+def load_dataset(filepath, column_names=None, seperator=","):
+    df = pd.read_csv(filepath,
+                     names=column_names,
+                     sep=seperator)
+    df.columns = df.columns.str.strip()
+    return df
+\end{lstlisting}
+
+
+\subsection{Dataset Information}
+
+The \texttt{dataset\_info()} function displays the basic properties of the
+dataset such as dimensions, column names, data types, memory usage and the
+first few records.
+
+\begin{lstlisting}[language=Python,caption={Dataset Information Function}]
+def dataset_info(df):
+    print(df.shape)
+    print(df.columns.tolist())
+    print(df.dtypes)
+    df.info()
+    print(df.head())
+\end{lstlisting}
+
+
+\subsection{Missing Value Analysis}
+
+The following function computes the number and percentage of missing values
+present in every feature.
+
+\begin{lstlisting}[language=Python,caption={Missing Value Analysis}]
+def missing_values(df):
+    missing = df.isnull().sum()
+    percent = (missing/len(df))*100
+
+    result = pd.DataFrame({
+        "missing": missing,
+        "percent": percent
+    })
+
+    return result
+\end{lstlisting}
+
+
+\subsection{Duplicate Record Detection}
+
+This function determines the number of duplicate records present in the dataset.
+
+\begin{lstlisting}[language=Python,caption={Duplicate Detection}]
+def duplicate_info(df):
+    duplicates = df.duplicated().sum()
+    return duplicates
+\end{lstlisting}
+
+
+\subsection{Summary Statistics}
+
+The following function generates descriptive statistics for all numerical
+attributes.
+
+\begin{lstlisting}[language=Python,caption={Summary Statistics}]
+def summary_statistics(df):
+    print(df.describe())
+\end{lstlisting}
+
+
+\subsection{Class Distribution}
+
+The class distribution function visualizes the frequency of each class in the
+target variable.
+
+\begin{lstlisting}[language=Python,caption={Class Distribution}]
+def class_distribution(df, target_column):
+    counts = df[target_column].value_counts()
+    counts.plot(kind="bar")
+    plt.show()
+\end{lstlisting}
+
+
+\subsection{Histogram Visualization}
+
+Histograms are generated for every numerical feature to study their
+distributions.
+
+\begin{lstlisting}[language=Python,caption={Histogram Plot}]
+def plot_histogram(df, bins=10):
+    numeric_df = df.select_dtypes("number")
+    numeric_df.hist(bins=bins)
+    plt.show()
+\end{lstlisting}
+
+
+\subsection{Box Plot Visualization}
+
+Box plots are used to identify the spread of data and detect possible outliers.
+
+\begin{lstlisting}[language=Python,caption={Box Plot}]
+def plot_boxplot(df):
+    numeric_df = df.select_dtypes("number")
+
+    for col in numeric_df.columns:
+        plt.boxplot(numeric_df[col])
+        plt.show()
+\end{lstlisting}
+
+
+\subsection{Correlation Heatmap}
+
+The heatmap visualizes the correlation among numerical features.
+
+\begin{lstlisting}[language=Python,caption={Correlation Heatmap}]
+def plot_heatmap(df):
+    numeric_df = df.select_dtypes("number")
+    corr = numeric_df.corr()
+    sns.heatmap(corr, annot=True)
+    plt.show()
+\end{lstlisting}
+
+
+\subsection{Pair Plot Visualization}
+
+Pair plots help visualize pairwise relationships among features.
+
+\begin{lstlisting}[language=Python,caption={Pair Plot}]
+def plot_scatterplot(df, target_column=None):
+
+    if target_column is not None:
+        sns.pairplot(df, hue=target_column)
+    else:
+        sns.pairplot(df)
+
+    plt.show()
+\end{lstlisting}
+
+
+\subsection{Integrated EDA Pipeline}
+
+The \texttt{perform\_eda()} function integrates all reusable EDA functions into
+a single configurable workflow.
+
+\begin{lstlisting}[language=Python,caption={Integrated EDA Pipeline}]
+def perform_eda(...):
+
+    df = load_dataset(...)
+
+    dataset_info(df)
+    missing_values(df)
+    duplicate_info(df)
+    summary_statistics(df)
+
+    ...
+
+    plot_histogram(df)
+    plot_boxplot(df)
+    plot_heatmap(df)
+    plot_scatterplot(df)
+
+    return df
 \end{lstlisting}
 
 \section{Dataset 1: Iris Dataset (Classification)}
@@ -94,32 +267,40 @@ Missing Values & None \\ \hline
 Duplicate Records & 3 \\ \hline
 \end{longtable}
 
-TODO: Describe the dataset, its features, and the classification task.
+% TODO: Describe the dataset, its features, and the classification task.
 
 \subsection{Loading and Basic Information}
-TODO: Explain how the dataset was loaded and what the basic information revealed about its structure.
+The dataset is loaded using the \texttt{load\_dataset()} function. This function accepts the dataset file path as input and reads the CSV file using \texttt{pd.read\_csv()}. After loading the data into a Pandas DataFrame, the column names are cleaned by removing any leading or trailing whitespace. Finally, the processed DataFrame is returned for further analysis.
 
 \subsection{Missing Values and Duplicates}
-TODO: Discuss the findings — no missing values, 3 duplicate records detected.
+In Iris dataset there is: 
+\begin{itemize}
+    \item No missing value
+    \item 3 Duplicate values!
+\end{itemize}
 
 \subsection{Exploratory Data Analysis}
 
 \subsubsection{Summary Statistics}
-TODO: Present and interpret the descriptive statistics of the four numerical features.
+\begin{itemize}
+    \item The sepal length has highest mean
+    \item The petal length has highest standard deviation
+    \item The petal width has minimum width of 0.1 which is really small!
+\end{itemize}
 
 \begin{longtable}{|l|r|r|r|r|}
 \hline
 \textbf{Feature} & \textbf{Mean} & \textbf{Std} & \textbf{Min} & \textbf{Max} \\ \hline
-sepal\_length & TODO & TODO & TODO & TODO \\ \hline
-sepal\_width & TODO & TODO & TODO & TODO \\ \hline
-petal\_length & TODO & TODO & TODO & TODO \\ \hline
-petal\_width & TODO & TODO & TODO & TODO \\ \hline
+sepal\_length & 5.843 & 0.828 & 4.3 & 7.9 \\ \hline
+sepal\_width  & 3.054 & 0.434 & 2.0 & 4.4 \\ \hline
+petal\_length & 3.759 & 1.764 & 1.0 & 6.9 \\ \hline
+petal\_width  & 1.199 & 0.763 & 0.1 & 2.5 \\ \hline
 \end{longtable}
 
 \subsubsection{Class Distribution}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\linewidth]{example-image}
+\includegraphics[width=0.7\linewidth]{images/iris_class_distribution.png}
 \caption{Class Distribution of Iris Species}
 \end{figure}
 
@@ -129,7 +310,7 @@ TODO: Explain that each class has 50 samples, making the dataset balanced.
 \subsubsection{Histograms}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\linewidth]{example-image}
+\includegraphics[width=0.7\linewidth]{images/iris_histograms.png}
 \caption{Histograms of Numerical Features — Iris Dataset}
 \end{figure}
 
@@ -137,19 +318,36 @@ TODO: Explain that each class has 50 samples, making the dataset balanced.
 TODO: Describe the distribution shapes — petal length and petal width are bimodal, while sepal features are unimodal.
 
 \subsubsection{Box Plots}
+The \texttt{plot\_boxplot()} function generates one separate box plot per numerical feature. For Iris, 4 individual box plots were generated:
+
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\linewidth]{example-image}
-\caption{Box Plots of Numerical Features — Iris Dataset}
+\includegraphics[width=0.6\linewidth]{images/iris_boxplot_sepal_length.png}
+\caption{Box Plot of Sepal Length}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\linewidth]{images/iris_boxplot_sepal_width.png}
+\caption{Box Plot of Sepal Width}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\linewidth]{images/iris_boxplot_petal_length.png}
+\caption{Box Plot of Petal Length}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\linewidth]{images/iris_boxplot_petal_width.png}
+\caption{Box Plot of Petal Width}
 \end{figure}
 
 \textbf{Inference:}
-TODO: Discuss outliers observed (if any) and the spread of each feature.
+TODO: Discuss outliers observed — sepal width has outliers above 4.0 and below 2.0; the other three features show no outliers.
 
 \subsubsection{Correlation Heatmap}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\linewidth]{example-image}
+\includegraphics[width=0.7\linewidth]{images/iris_correlation_heatmap.png}
 \caption{Correlation Heatmap — Iris Dataset}
 \end{figure}
 
@@ -159,7 +357,7 @@ TODO: Interpret the strong positive correlation between petal length and petal w
 \subsubsection{Pair Plot}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\linewidth]{example-image}
+\includegraphics[width=0.7\linewidth]{images/iris_pairplot.png}
 \caption{Pair Plot of All Features — Iris Dataset}
 \end{figure}
 
@@ -206,7 +404,7 @@ residential\_assets\_value & TODO & TODO & TODO & TODO \\ \hline
 \subsubsection{Class Distribution — Loan Status}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\linewidth]{example-image}
+\includegraphics[width=0.7\linewidth]{images/loan_loan_status_distribution.png}
 \caption{Distribution of Loan Status}
 \end{figure}
 
@@ -216,12 +414,12 @@ TODO: Discuss whether the dataset is balanced or imbalanced with respect to loan
 \subsubsection{Class Distribution — Education and Self Employed}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\linewidth]{example-image}
+\includegraphics[width=0.7\linewidth]{images/loan_education_distribution.png}
 \caption{Distribution of Education Level}
 \end{figure}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\linewidth]{example-image}
+\includegraphics[width=0.7\linewidth]{images/loan_self_employed_distribution.png}
 \caption{Distribution of Self Employment Status}
 \end{figure}
 
@@ -231,7 +429,7 @@ TODO: Discuss the balance in both categorical features.
 \subsubsection{Histograms}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\linewidth]{example-image}
+\includegraphics[width=0.7\linewidth]{images/loan_histograms.png.png}
 \caption{Histograms of Numerical Features — Loan Dataset}
 \end{figure}
 
@@ -239,19 +437,31 @@ TODO: Discuss the balance in both categorical features.
 TODO: Describe the skewness observed in loan amount and asset value columns, and the uniform distribution of income, loan term, and CIBIL score.
 
 \subsubsection{Box Plots}
+The \texttt{plot\_boxplot()} function generates one separate box plot per numerical feature. The following box plots were saved for the Loan dataset:
+
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\linewidth]{example-image}
-\caption{Box Plots of Numerical Features — Loan Dataset}
+\includegraphics[width=0.6\linewidth]{images/loan_boxplot_income_annum.png}
+\caption{Box Plot of Annual Income}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\linewidth]{images/loan_boxplot_loan_amount.png}
+\caption{Box Plot of Loan Amount}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\linewidth]{images/loan_boxplot_cibil_score.png}
+\caption{Box Plot of CIBIL Score}
 \end{figure}
 
 \textbf{Inference:}
-TODO: Discuss outliers in asset value columns and their absence in CIBIL score and loan amount.
+TODO: Discuss outliers — income, loan amount, and CIBIL score show no outliers. Other numerical features (asset values) showed upper outliers.
 
 \subsubsection{Correlation Heatmap}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\linewidth]{example-image}
+\includegraphics[width=0.7\linewidth]{images/loan_correlation_heatmap.png}
 \caption{Correlation Heatmap — Loan Dataset}
 \end{figure}
 
@@ -261,7 +471,7 @@ TODO: Interpret the strong positive correlation between income\_annum and loan\_
 \subsubsection{Pair Plot (Selected Features)}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\linewidth]{example-image}
+\includegraphics[width=0.7\linewidth]{images/loan_pairplot.png}
 \caption{Pair Plot of Key Features colored by Loan Status}
 \end{figure}
 
@@ -307,7 +517,7 @@ blood\_glucose\_level & TODO & TODO & TODO & TODO \\ \hline
 \subsubsection{Histograms}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\linewidth]{example-image}
+\includegraphics[width=0.7\linewidth]{images/diabetes_histograms.png}
 \caption{Histograms of Numerical Features — Diabetes Dataset}
 \end{figure}
 
@@ -315,19 +525,36 @@ blood\_glucose\_level & TODO & TODO & TODO & TODO \\ \hline
 TODO: Discuss the distribution of age, BMI, HbA1c, blood glucose, and the imbalance in the target variable.
 
 \subsubsection{Box Plots}
+The \texttt{plot\_boxplot()} function generates one separate box plot per numerical feature. The following box plots were saved for the Diabetes dataset:
+
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\linewidth]{example-image}
-\caption{Box Plots of Numerical Features — Diabetes Dataset}
+\includegraphics[width=0.6\linewidth]{images/diabetes_boxplot_age.png}
+\caption{Box Plot of Age}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\linewidth]{images/diabetes_boxplot_bmi.png}
+\caption{Box Plot of BMI}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\linewidth]{images/diabetes_boxplot_hba1c.png}
+\caption{Box Plot of HbA1c Level}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\linewidth]{images/diabetes_boxplot_blood_glucose.png}
+\caption{Box Plot of Blood Glucose Level}
 \end{figure}
 
 \textbf{Inference:}
-TODO: Discuss outliers observed in BMI, HbA1c level, and blood glucose level.
+TODO: Discuss outliers — BMI contains numerous upper outliers; HbA1c level and blood glucose level also show high-value outliers.
 
 \subsubsection{Correlation Heatmap}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\linewidth]{example-image}
+\includegraphics[width=0.7\linewidth]{images/diabetes_correlation_heatmap.png}
 \caption{Correlation Heatmap — Diabetes Dataset}
 \end{figure}
 
@@ -341,11 +568,11 @@ TODO: Interpret correlations — blood glucose level (0.42) and HbA1c level (0.4
 \hline
 Dataset Name & Digits \\ \hline
 Dataset Source & scikit-learn \texttt{load\_digits()} (built-in) \\ \hline
-Number of Samples & TODO: Specify number of samples \\ \hline
+Number of Samples & 1,797 \\ \hline
 Number of Features & 64 (8×8 pixel values) \\ \hline
 Number of Classes & 10 (digits 0–9) \\ \hline
 Missing Values & None \\ \hline
-Duplicate Records & TODO: Specify count \\ \hline
+Duplicate Records & None \\ \hline
 \end{longtable}
 
 TODO: Describe the dataset and the multi-class classification task.
@@ -354,11 +581,12 @@ TODO: Describe the dataset and the multi-class classification task.
 TODO: Explain how the dataset was loaded using \texttt{load\_digits()} and converted to a DataFrame with a target column.
 
 \subsection{Exploratory Data Analysis}
+For the Digits dataset, only class distribution was plotted (histograms, box plots, heatmap, and pair plot were intentionally skipped since the 64 pixel features are not individually meaningful for univariate analysis).
 
 \subsubsection{Class Distribution}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\linewidth]{example-image}
+\includegraphics[width=0.7\linewidth]{images/digits_class_distribution.png}
 \caption{Class Distribution of Digits 0–9}
 \end{figure}
 
@@ -366,11 +594,7 @@ TODO: Explain how the dataset was loaded using \texttt{load\_digits()} and conve
 TODO: Discuss whether the digit classes are balanced.
 
 \subsubsection{Sample Visualization}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.7\linewidth]{example-image}
-\caption{Sample Digit Images from the Dataset}
-\end{figure}
+TODO: Insert sample digit images (8×8 pixel representations) here if available.
 
 \textbf{Inference:}
 TODO: Show sample images of each digit and describe the visual representation.
@@ -382,24 +606,25 @@ TODO: Show sample images of each digit and describe the visual representation.
 \hline
 Dataset Name & Email Spam \\ \hline
 Dataset Source & \texttt{emailSpam/emails.csv} \\ \hline
-Number of Samples & TODO: Specify number of samples \\ \hline
-Number of Features & TODO: Specify number of features \\ \hline
-Target Variable & \texttt{Prediction} (Spam / Not Spam) \\ \hline
-Missing Values & TODO: Specify \\ \hline
-Duplicate Records & TODO: Specify \\ \hline
+Number of Samples & 5,172 \\ \hline
+Number of Features & 3,002 (3,000 word frequency columns + Email No. + Prediction) \\ \hline
+Target Variable & \texttt{Prediction} (0 = Not Spam, 1 = Spam) \\ \hline
+Missing Values & None \\ \hline
+Duplicate Records & None \\ \hline
 \end{longtable}
 
 TODO: Describe the dataset and the binary classification task.
 
 \subsection{Loading and Basic Information}
-TODO: Explain how the dataset was loaded and the initial observations.
+TODO: Explain how the dataset was loaded and the initial observations about its high-dimensional nature (3000+ features).
 
 \subsection{Exploratory Data Analysis}
+For the Email Spam dataset, only class distribution was plotted (histograms, box plots, heatmap, and pair plot were intentionally skipped due to the extremely high dimensionality of the data).
 
 \subsubsection{Class Distribution}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\linewidth]{example-image}
+\includegraphics[width=0.7\linewidth]{images/spam_class_distribution.png}
 \caption{Distribution of Spam vs Non-Spam Emails}
 \end{figure}
 
@@ -411,11 +636,11 @@ TODO: Discuss the balance (or imbalance) between spam and non-spam classes.
 \begin{longtable}{|p{3.5cm}|c|c|c|c|c|}
 \hline
 \textbf{Property} & \textbf{Iris} & \textbf{Loan} & \textbf{Diabetes} & \textbf{Digits} & \textbf{Spam} \\ \hline
-Samples & 150 & 4,269 & 100,000 & TODO & TODO \\ \hline
-Features & 4 & 13 & 9 & 64 & TODO \\ \hline
+Samples & 150 & 4,269 & 100,000 & 1,797 & 5,172 \\ \hline
+Features & 4 & 13 & 9 & 64 & 3,002 \\ \hline
 Classes & 3 & 2 & 2 & 10 & 2 \\ \hline
-Missing Values & 0 & 0 & 0 & 0 & TODO \\ \hline
-Duplicates & 3 & 0 & 3,854 & TODO & TODO \\ \hline
+Missing Values & 0 & 0 & 0 & 0 & 0 \\ \hline
+Duplicates & 3 & 0 & 3,854 & 0 & 0 \\ \hline
 Task Type & Multi-class Classification & Binary Classification & Binary Classification & Multi-class Classification & Binary Classification \\ \hline
 \end{longtable}
 
