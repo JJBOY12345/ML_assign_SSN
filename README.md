@@ -5,7 +5,7 @@
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-F79A3E?logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Welcome to the **Machine Learning Coursework** repository for Semester 5. This repository serves as a comprehensive academic record of machine learning algorithms, exploratory data analysis (EDA), regression techniques, classification models, ensemble learning, dimensionality reduction (PCA), and unsupervised clustering.
+Welcome to the **Machine Learning Coursework** repository for Semester 5. This repository serves as a comprehensive academic record of machine learning algorithms, exploratory data analysis (EDA), regression techniques, classification models, ensemble learning, dimensionality reduction (PCA), unsupervised clustering, and neural network architectures (PLA vs MLP).
 
 * **Author:** JJBOY12345 ([jeswinjoel1088@gmail.com](mailto:jeswinjoel1088@gmail.com))
 * **Institution:** Department of Computer Science & Engineering, SSN College of Engineering
@@ -56,10 +56,16 @@ machine_learning/
 │   ├── exp7.ipynb                              # Notebook
 │   ├── Academics_SSN (2).pdf                   # Lab manual PDF
 │   └── datasets/                               # WDBC Breast Cancer dataset
-└── assign8/                                    # Assignment 8: Unsupervised Clustering (HAR)
-    ├── ex8.ipynb                               # Notebook
-    ├── Experiment_8.pdf                        # Lab manual PDF
-    └── dataset/                                # UCI Human Activity Recognition (HAR) dataset
+├── assign8/                                    # Assignment 8: Unsupervised Clustering (HAR)
+│   ├── ex8.ipynb                               # Notebook
+│   ├── Experiment_8.pdf                        # Lab manual PDF
+│   └── dataset/                                # UCI Human Activity Recognition (HAR) dataset
+└── assign9/                                    # Assignment 9: Perceptron vs Multilayer Perceptron (A/B Experiment)
+    ├── Experiment_9_PLA_vs_MLP.ipynb           # Primary Jupyter Notebook
+    ├── Experiment_9.pdf                        # Lab manual PDF
+    ├── ml_assign9-1.pdf                        # Compiled PDF lab report (J Jeswin Joel)
+    ├── figures/                                # Convergence plots, ROC curves & confusion matrices
+    └── dataset/                                # English Handwritten Characters dataset (3,410 PNG images)
 ```
 
 ---
@@ -118,14 +124,14 @@ pip install -r requirements.txt
 
 Alternatively, you can install the packages manually:
 ```bash
-pip install numpy pandas scikit-learn matplotlib seaborn xgboost scipy jupyter
+pip install numpy pandas scikit-learn matplotlib seaborn xgboost scipy pillow jupyter
 ```
 
 ### Step 5: Launch Jupyter Notebook
 ```bash
 jupyter notebook
 ```
-Navigate to any assignment folder (e.g., `assign1/Assign1.ipynb`) to view and execute the notebooks.
+Navigate to any assignment folder (e.g., `assign9/Experiment_9_PLA_vs_MLP.ipynb`) to view and execute the notebooks.
 
 ---
 
@@ -141,6 +147,7 @@ Navigate to any assignment folder (e.g., `assign1/Assign1.ipynb`) to view and ex
 | **06** | **Ensemble Learning (Bagging, Boosting & Stacking)** | Bagging, AdaBoost, Gradient Boosting, Stacking Ensemble | WDBC Breast Cancer (`wdbc.data`) | [`ex6.ipynb`](./assign6/ex6.ipynb) | [`Experiment_6.pdf`](./assign6/Experiment_6.pdf) |
 | **07** | **PCA Dimensionality Reduction & 10-Model Benchmark** | PCA (95% Variance), 10 Classifiers Benchmark (With/Without PCA) | WDBC Breast Cancer (`wdbc.data`) | [`exp7.ipynb`](./assign7/exp7.ipynb) | [`Academics_SSN (2).pdf`](./assign7/Academics_SSN%20%282%29.pdf) |
 | **08** | **Unsupervised Clustering on HAR Data** | K-Means, DBSCAN, Hierarchical Agglomerative, Internal/External Metrics | UCI Human Activity Recognition (HAR) | [`ex8.ipynb`](./assign8/ex8.ipynb) | [`Experiment_8.pdf`](./assign8/Experiment_8.pdf) |
+| **09** | **Perceptron vs Multilayer Perceptron (A/B Experiment)** | Scratch One-vs-Rest PLA, MLP Backpropagation, Grid Search, Micro/Macro ROC | English Handwritten Characters (62 classes) | [`Experiment_9_PLA_vs_MLP.ipynb`](./assign9/Experiment_9_PLA_vs_MLP.ipynb) | [`ml_assign9-1.pdf`](./assign9/ml_assign9-1.pdf) |
 
 ---
 
@@ -260,17 +267,29 @@ Navigate to any assignment folder (e.g., `assign1/Assign1.ipynb`) to view and ex
 
 ---
 
+### 📂 Assignment 9: Perceptron vs Multilayer Perceptron (A/B Experiment)
+* **Objective:** Conduct an A/B experimental study comparing a single-layer Perceptron (PLA from scratch) against a deep feedforward Multilayer Perceptron (MLP with backpropagation) on a multi-class image classification task.
+* **Dataset:** English Handwritten Characters dataset ($3,410$ images, $28 \times 28$ pixels $\to 784$ features, 62 classes: digits `0–9`, uppercase `A–Z`, lowercase `a–z`).
+* **Key Tasks & Methods:**
+  * **Model A (PLA from Scratch):** Built a 62-class One-vs-Rest (OvR) Perceptron with a step activation function and weight update rule $w_{t+1} = w_t + \eta(y - \hat{y})x$. Demonstrates the fundamental limitation of linear models on non-linearly separable image data.
+  * **Model B (MLP Backpropagation):** Trained a Multilayer Perceptron using `MLPClassifier`. Conducted systematic Grid Search tuning across `hidden_layer_sizes`, `activation` (`'relu'`, `'tanh'`), `solver` (`'adam'`, `'sgd'`), and `learning_rate_init`. Best configuration: `hidden_layer_sizes=(128, 64)`, `activation='relu'`, `solver='adam'`.
+  * **Diagnostic Visualizations:** Epoch-by-epoch PLA convergence curves, MLP cross-entropy loss reduction curves, $62 \times 62$ confusion matrices, micro/macro ROC-AUC curves, and side-by-side A/B bar chart comparisons.
+* **Notebook:** [`assign9/Experiment_9_PLA_vs_MLP.ipynb`](./assign9/Experiment_9_PLA_vs_MLP.ipynb)
+
+---
+
 ## 📦 Package & Dependencies Reference
 
 | Package | Purpose & Usage in Repository |
 | :--- | :--- |
 | **`numpy`** | Numerical array operations, distance metrics, mathematical functions |
 | **`pandas`** | Dataframe loading, data cleaning, statistical summaries, CSV I/O |
-| **`scikit-learn`** | Core ML library: estimators, preprocessing, decomposition (PCA), cross-validation, metrics |
-| **`matplotlib`** | Plot generation: ROC curves, PR curves, residual plots, dendrograms |
-| **`seaborn`** | Statistical visualizations: correlation heatmaps, boxplots, pairplots |
+| **`scikit-learn`** | Core ML library: estimators, preprocessing, decomposition (PCA), neural networks (`MLPClassifier`), cross-validation, metrics |
+| **`matplotlib`** | Plot generation: ROC curves, PR curves, residual plots, dendrograms, loss curves |
+| **`seaborn`** | Statistical visualizations: correlation heatmaps, boxplots, pairplots, confusion matrices |
 | **`xgboost`** | Extreme Gradient Boosting classifier implementation (Assignment 7 benchmark) |
 | **`scipy`** | Hierarchical clustering linkage matrices and dendrogram visualization (Assignment 8) |
+| **`pillow`** | Image loading (`PIL.Image`) and resizing for handwritten character datasets (Assignment 9) |
 | **`jupyter`** | Interactive environment for executing `.ipynb` notebooks |
 
 ---
@@ -285,12 +304,13 @@ Navigate to any assignment folder (e.g., `assign1/Assign1.ipynb`) to view and ex
 - [x] **Assignment 6:** Ensemble Learning (Bagging, Boosting, Stacking)
 - [x] **Assignment 7:** PCA Dimensionality Reduction & 10-Model Benchmark
 - [x] **Assignment 8:** Unsupervised Clustering on HAR Data
+- [x] **Assignment 9:** Perceptron vs Multilayer Perceptron (A/B Experiment)
 
 ---
 
 ## 📄 Lab Reports & LaTeX Templates
 
-Every assignment folder contains a custom LaTeX report template (e.g., [`assign1/Assign1_Report_Template.tex`](./assign1/Assign1_Report_Template.tex)) formatted using the repository's master styling configuration [`format.tex`](./format.tex). Compiled PDF versions of completed lab reports are available directly in each assignment directory.
+Every assignment folder contains a custom LaTeX report template (e.g., [`assign1/Assign1_Report_Template.tex`](./assign1/Assign1_Report_Template.tex)) formatted using the repository's master styling configuration [`format.tex`](./format.tex). Compiled PDF versions of completed lab reports (e.g., [`assign9/ml_assign9-1.pdf`](./assign9/ml_assign9-1.pdf)) are available directly in each assignment directory.
 
 ---
 
