@@ -93,7 +93,7 @@ Isolate project dependencies from your global Python environment:
   ```
 * **Windows (Command Prompt / PowerShell):**
   ```cmd
-  python -m venv .venv
+  python3 -m venv .venv
   ```
 
 ### Step 3: Activate the Virtual Environment
